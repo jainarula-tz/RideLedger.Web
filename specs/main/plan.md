@@ -1,7 +1,7 @@
 # Implementation Plan: Accounting & Invoicing Frontend
 
 **Branch**: `frontend-web` | **Date**: 2026-02-08 | **Spec**: [spec.md](./spec.md)
-**Input**: Feature specification from `/specs/frontend-web/spec.md`
+**Input**: Feature specification from `/specs/main/spec.md`
 
 **Note**: This is an Angular frontend application that complements the backend Accounting Service (feature 001-accounting-invoicing).
 
@@ -74,7 +74,7 @@ Build a production-grade Angular 18+ frontend application providing user interfa
 ### Documentation (this feature)
 
 ```text
-specs/frontend-web/
+specs/main/
 ├── plan.md              # This file
 ├── research.md          # Phase 0 output
 ├── data-model.md        # Phase 1 output (frontend models)

@@ -1,9 +1,9 @@
 # Tasks: Accounting & Invoicing Frontend (Angular)
 
-**Feature**: frontend-web  
+**Feature**: main  
 **Branch**: `frontend-web`  
 **Generated**: 2026-02-08  
-**Total Tasks**: 262
+**Total Tasks**: 266
 
 ---
 
@@ -26,7 +26,7 @@ Tasks are organized by **user story** to enable independent implementation and t
 
 ### Tasks
 
-- [ ] T001 Create Angular 18+ project with standalone components at angular/accounting-frontend/ using Angular CLI
+- [ ] T001 Create Angular 18+ project with standalone components at repository root using Angular CLI (ng new . --standalone --routing --style=scss)
 - [ ] T002 Configure pnpm as package manager, create .nvmrc with Node.js 20.x
 - [ ] T003 [P] Install core dependencies: rxjs@7+, date-fns@3+, ngx-toastr@18+
 - [ ] T004 [P] Install Tailwind CSS dependencies: tailwindcss@3.4+, postcss, autoprefixer
@@ -127,8 +127,7 @@ Tasks are organized by **user story** to enable independent implementation and t
 - [ ] T069 [US1] Write unit test for AccountApiService mocking HttpClient
 - [ ] T070 [US1] Write unit test for AccountFacadeService verifying state updates with RxJS TestScheduler
 - [ ] T071 [US1] Write component test for AccountDashboardComponent with loading/error/success states
-- [ ] T072 [US1] Write E2E test with Playwright for dashboard page loading and displaying correct account data
-
+- [ ] T072 [US1] Write E2E test with Playwright for dashboard page loading and displaying correct account data- [ ] T072a [US1] Write E2E test with Playwright validating dashboard keyboard navigation (Tab/Shift+Tab focus order, Enter to activate links, Escape to close modals)
 ---
 
 ## Phase 4: User Story 2 - Record Ride Charges (P1)
@@ -176,6 +175,7 @@ Tasks are organized by **user story** to enable independent implementation and t
 - [ ] T100 [US2] Write component test for ChargeFormComponent with validation scenarios (invalid amount, future date, missing required)
 - [ ] T101 [US2] Write E2E test with Playwright for charge form submission success and error paths
 - [ ] T101a [US2] Implement unsaved changes guard at src/app/features/charges/guards/unsaved-changes.guard.ts for ChargeFormComponent (FR-020)
+- [ ] T101b [US2] Write E2E test with Playwright validating charge form keyboard accessibility (Tab order, field focus, Enter to submit, screen reader announcements)
 
 ---
 
@@ -223,6 +223,7 @@ Tasks are organized by **user story** to enable independent implementation and t
 - [ ] T127 [US3] Write unit test for TransactionFilterComponent verifying filter emission
 - [ ] T128 [US3] Write component test for TransactionHistoryPageComponent verifying filter/pagination integration
 - [ ] T129 [US3] Write E2E test with Playwright for transaction history filtering and pagination
+- [ ] T129a [US3] Write E2E test with Playwright validating transaction history keyboard navigation (Tab through table rows, Arrow keys in filters, Enter to apply, focus management)
 
 ---
 
@@ -321,6 +322,7 @@ Tasks are organized by **user story** to enable independent implementation and t
 - [ ] T190 [US5] Write unit test for PaymentFacadeService verifying recordPayment logic
 - [ ] T191 [US5] Write component test for PaymentFormComponent with overpayment scenario
 - [ ] T192 [US5] Write E2E test with Playwright for payment form submission and unsaved changes dialog
+- [ ] T192a [US5] Write E2E test with Playwright validating payment form keyboard accessibility (Tab order, modal focus trap, Escape to close modal, Enter to confirm)
 
 ---
 

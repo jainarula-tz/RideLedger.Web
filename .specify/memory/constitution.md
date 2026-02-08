@@ -1,50 +1,65 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# RideLedger Frontend Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Production-Grade Code Mandate
+All frontend code MUST implement lazy loading for routes. All components MUST use OnPush change detection strategy. All lists MUST use trackBy functions. Tailwind CSS MUST be configured with proper purging. TypeScript strict mode MUST be enabled. Lighthouse Performance score MUST exceed 90. Accessibility score MUST be 100.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Feature/Domain-First Architecture
+Features MUST be organized in feature folders containing pages, components, services, and models co-located. Core MUST contain only singleton services (API service, notification service, interceptors, guards). Shared MUST contain only reusable UI components used across ≥2 features. Standalone components are mandatory as default.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Security by Default
+No innerHTML usage is permitted. Angular DomSanitizer MUST be used for any dynamic content. Input validation MUST occur at boundaries (UX only, server is source of truth). All API calls MUST use HTTPS. No secrets in frontend code. CSP headers MUST be enforced via server configuration.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. Performance-First Design
+All components MUST use OnPush change detection. All lists MUST implement trackBy functions. All subscriptions MUST use async pipe in templates. Route-level code splitting MUST be implemented via lazy loading. NgOptimizedImage MUST be used for images. Lighthouse Performance score >90 is mandatory.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. TypeScript Strict Mode & Strong Typing
+tsconfig.json MUST enable strict mode (strict: true, noImplicitAny: true, strictNullChecks: true). The 'any' type is forbidden. Unknown MUST be used for untrusted API data. Strong typing MUST be enforced at boundaries (HTTP responses, route params, form values).
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+### VI. Frontend Architecture Standards
+Components MUST meet quality requirements: accessibility (WCAG 2.1 AA), single responsibility, OnPush change detection, isolated styling (no global styles). Reactive forms MUST be used for complex forms. Validation MUST provide clear error messages. Debounced inputs MUST be used for search/autocomplete. Proper form state indicators (pristine, dirty, touched, valid) MUST be displayed.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### VII. Testing Requirements
+Unit tests MUST cover services, components, and pipes. Component tests MUST cover variant states (loading, error, empty, success). E2E tests MUST cover critical user paths. Stable selectors (data-testid) MUST be used in tests. Minimum 70% code coverage is required.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+### VIII. RxJS & State Management
+Async pipe MUST be preferred in templates over manual subscriptions. takeUntilDestroyed() MUST be used for manual subscriptions to prevent leaks. No subscription leaks are permitted. RxJS facade services MUST be used for state management.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### IX. Forms Standard
+Reactive forms MUST be used for non-trivial forms (>2 fields). Typed form models MUST be used. Validation MUST occur at boundaries (sync validators, async validators). Accessible labels and error messages (aria-describedby) are mandatory.
+
+### X. Code Quality Standards
+ESLint with Angular rules MUST be configured and pass with zero errors. Prettier formatting MUST be enforced. Import ordering MUST follow convention. Naming conventions are mandatory: PascalCase for classes, camelCase for variables/functions, kebab-case for component selectors.
+
+## Quality Gates
+
+### Performance Thresholds
+- Page load: <2 seconds
+- Form submission: <3 seconds
+- Search results: <500ms (p95)
+- Lighthouse Performance: >90
+- Initial bundle: <500KB gzipped
+
+### Accessibility Standards
+- WCAG 2.1 AA compliance
+- Lighthouse Accessibility: 100
+- Keyboard navigation support
+- Screen reader compatibility
+
+### Testing Standards
+- Unit test coverage: 70% minimum
+- Component variant coverage: loading, error, empty, success states
+- E2E tests for critical user flows
+
+### Browser Support
+- Chrome 100+, Firefox 100+, Safari 15+, Edge 100+
+- Last 2 major versions
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other development practices. Any architecture decision requiring exception to these principles MUST be documented in plan.md Complexity Tracking section with explicit justification.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+All pull requests MUST verify constitutional compliance before merge. Complexity requiring deviation from principles MUST be justified with simpler alternatives documented.
+
+**Version**: 1.0.0 | **Ratified**: 2026-02-08 | **Last Amended**: 2026-02-08
