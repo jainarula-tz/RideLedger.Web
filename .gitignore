@@ -40,18 +40,3 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
-
-# Environment files
-.env
-.env.local
-.env.*.local
-
-# Testing
-/e2e/test-results/
-/e2e/playwright-report/
-/e2e/screenshots/
-/e2e/videos/
-
-# Build artifacts
-*.js.map
-*.log
