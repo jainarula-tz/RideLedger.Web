@@ -16,6 +16,7 @@ import { GenerateInvoiceComponent } from './features/invoices/pages/generate-inv
 import { TransactionFilterComponent } from './features/accounts/components/transaction-filter/transaction-filter.component';
 import { ErrorInterceptor } from './core/interceptors/error.interceptor';
 import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent, AccountDashboardComponent],
@@ -40,6 +41,11 @@ import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
     }),
   ],
   providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,

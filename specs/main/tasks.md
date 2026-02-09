@@ -26,26 +26,26 @@ Tasks are organized by **user story** to enable independent implementation and t
 
 ### Tasks
 
-- [ ] T001 Create Angular 18+ project with standalone components at repository root using Angular CLI (ng new . --standalone --routing --style=scss)
+- [X] T001 Create Angular 18+ project with standalone components at repository root using Angular CLI (ng new . --standalone --routing --style=scss)
 - [ ] T002 Configure pnpm as package manager, create .nvmrc with Node.js 20.x
-- [ ] T003 [P] Install core dependencies: rxjs@7+, date-fns@3+, ngx-toastr@18+
-- [ ] T004 [P] Install Tailwind CSS dependencies: tailwindcss@3.4+, postcss, autoprefixer
-- [ ] T005 [P] Install dev dependencies: @angular-eslint/schematics, eslint, prettier, husky, lint-staged
-- [ ] T006 [P] Install testing dependencies: @playwright/test
-- [ ] T007 Initialize Tailwind CSS with tailwind.config.ts in project root
-- [ ] T008 Configure Tailwind content paths in tailwind.config.ts to ["./src/**/*.{html,ts}"]
-- [ ] T009 Add Tailwind directives (@tailwind base/components/utilities) to src/styles.css
-- [ ] T010 Configure custom Tailwind theme colors (primary, success, error, warning) in tailwind.config.ts
-- [ ] T011 Create .editorconfig at project root with indent_style=space, indent_size=2, charset=utf-8
-- [ ] T012 Create .eslintrc.cjs with Angular ESLint rules, TypeScript strict rules, Prettier integration
-- [ ] T013 Create .prettierrc with printWidth=100, singleQuote=true, trailingComma=all
-- [ ] T014 Configure Husky pre-commit hook at .husky/pre-commit running lint-staged
-- [ ] T015 Configure lint-staged in package.json to run eslint --fix and prettier --write on staged files
-- [ ] T016 Update tsconfig.json with strict mode: strict=true, noImplicitAny=true, strictNullChecks=true
+- [X] T003 [P] Install core dependencies: rxjs@7+, date-fns@3+, ngx-toastr@18+
+- [X] T004 [P] Install Tailwind CSS dependencies: tailwindcss@3.4+, postcss, autoprefixer
+- [X] T005 [P] Install dev dependencies: @angular-eslint/schematics, eslint, prettier, husky, lint-staged
+- [X] T006 [P] Install testing dependencies: @playwright/test
+- [X] T007 Initialize Tailwind CSS with tailwind.config.ts in project root
+- [X] T008 Configure Tailwind content paths in tailwind.config.ts to ["./src/**/*.{html,ts}"]
+- [X] T009 Add Tailwind directives (@tailwind base/components/utilities) to src/styles.css
+- [X] T010 Configure custom Tailwind theme colors (primary, success, error, warning) in tailwind.config.ts
+- [X] T011 Create .editorconfig at project root with indent_style=space, indent_size=2, charset=utf-8
+- [X] T012 Create .eslintrc.cjs with Angular ESLint rules, TypeScript strict rules, Prettier integration
+- [X] T013 Create .prettierrc with printWidth=100, singleQuote=true, trailingComma=all
+- [X] T014 Configure Husky pre-commit hook at .husky/pre-commit running lint-staged
+- [X] T015 Configure lint-staged in package.json to run eslint --fix and prettier --write on staged files
+- [X] T016 Update tsconfig.json with strict mode: strict=true, noImplicitAny=true, strictNullChecks=true
 - [ ] T017 Add path aliases to tsconfig.json: @core/*, @shared/*, @features/*, @environments/*
-- [ ] T018 Create environment files at src/environments/environment.ts and environment.development.ts with API base URL
+- [X] T018 Create environment files at src/environments/environment.ts and environment.development.ts with API base URL
 - [ ] T019 Update angular.json to replace assets/styles optimization settings for production build
-- [ ] T020 Create project structure: src/app/core/, src/app/shared/, src/app/features/
+- [X] T020 Create project structure: src/app/core/, src/app/shared/, src/app/features/
 
 ---
 
@@ -59,25 +59,25 @@ Tasks are organized by **user story** to enable independent implementation and t
 
 ### Tasks
 
-- [ ] T021 Create ApiService at src/app/core/services/api.service.ts with base HTTP methods (get, post, put, delete with typed responses)
-- [ ] T022 Create NotificationService at src/app/core/services/notification.service.ts wrapping ngx-toastr with success/error/warning/info methods
-- [ ] T023 Create AuthInterceptor at src/app/core/interceptors/auth.interceptor.ts adding Authorization header from token storage
-- [ ] T024 Create ErrorInterceptor at src/app/core/interceptors/error.interceptor.ts catching HTTP errors and showing notifications
-- [ ] T025 Create LoadingInterceptor at src/app/core/interceptors/loading.interceptor.ts tracking active HTTP requests via BehaviorSubject
-- [ ] T026 Register all interceptors in app.config.ts providers array
-- [ ] T027 Create FormErrorService at src/app/core/services/form-error.service.ts centralizing validation error message generation
-- [ ] T028 Create CustomValidators at src/app/shared/validators/custom-validators.ts with positiveNumber, maxDecimals, notFutureDate validators
-- [ ] T029 [P] Create ButtonComponent at src/app/shared/components/button/button.component.ts with variants (primary, secondary, danger), loading state
-- [ ] T030 [P] Create InputComponent at src/app/shared/components/input/input.component.ts with label, error message, required indicator
-- [ ] T031 [P] Create ModalComponent at src/app/shared/components/modal/modal.component.ts with header, body, footer slots, close on Escape
-- [ ] T032 [P] Create TableComponent at src/app/shared/components/table/table.component.ts with sorting, pagination, empty state
-- [ ] T033 [P] Create SkeletonLoaderComponent at src/app/shared/components/skeleton-loader/skeleton-loader.component.ts with configurable shapes (rectangle, circle, text)
-- [ ] T034 [P] Create CurrencyFormatPipe at src/app/shared/pipes/currency-format.pipe.ts formatting numbers as $1,234.56
-- [ ] T035 [P] Create DateFormatPipe at src/app/shared/pipes/date-format.pipe.ts using date-fns format functions
-- [ ] T036 [P] Create AutoFocusDirective at src/app/shared/directives/auto-focus.directive.ts focusing element on component init
-- [ ] T037 Configure ngx-toastr in app.config.ts with global options (timeOut: 3000, positionClass: 'toast-top-right', closeButton: true)
-- [ ] T038 Create app.routes.ts with lazy-loaded feature routes (accounts, charges, payments, invoices)
-- [ ] T039 Create AppComponent at src/app/app.component.ts with router-outlet and navigation header
+- [X] T021 Create ApiService at src/app/core/services/api.service.ts with base HTTP methods (get, post, put, delete with typed responses)
+- [X] T022 Create NotificationService at src/app/core/services/notification.service.ts wrapping ngx-toastr with success/error/warning/info methods
+- [X] T023 Create AuthInterceptor at src/app/core/interceptors/auth.interceptor.ts adding Authorization header from token storage
+- [X] T024 Create ErrorInterceptor at src/app/core/interceptors/error.interceptor.ts catching HTTP errors and showing notifications
+- [X] T025 Create LoadingInterceptor at src/app/core/interceptors/loading.interceptor.ts tracking active HTTP requests via BehaviorSubject
+- [X] T026 Register all interceptors in app.config.ts providers array
+- [X] T027 Create FormErrorService at src/app/core/services/form-error.service.ts centralizing validation error message generation
+- [X] T028 Create CustomValidators at src/app/shared/validators/custom-validators.ts with positiveNumber, maxDecimals, notFutureDate validators
+- [X] T029 [P] Create ButtonComponent at src/app/shared/components/button/button.component.ts with variants (primary, secondary, danger), loading state
+- [X] T030 [P] Create InputComponent at src/app/shared/components/input/input.component.ts with label, error message, required indicator
+- [X] T031 [P] Create ModalComponent at src/app/shared/components/modal/modal.component.ts with header, body, footer slots, close on Escape
+- [X] T032 [P] Create TableComponent at src/app/shared/components/table/table.component.ts with sorting, pagination, empty state
+- [X] T033 [P] Create SkeletonLoaderComponent at src/app/shared/components/skeleton-loader/skeleton-loader.component.ts with configurable shapes (rectangle, circle, text)
+- [X] T034 [P] Create CurrencyFormatPipe at src/app/shared/pipes/currency-format.pipe.ts formatting numbers as $1,234.56
+- [X] T035 [P] Create DateFormatPipe at src/app/shared/pipes/date-format.pipe.ts using date-fns format functions
+- [X] T036 [P] Create AutoFocusDirective at src/app/shared/directives/auto-focus.directive.ts focusing element on component init
+- [X] T037 Configure ngx-toastr in app.config.ts with global options (timeOut: 3000, positionClass: 'toast-top-right', closeButton: true)
+- [X] T038 Create app.routes.ts with lazy-loaded feature routes (accounts, charges, payments, invoices)
+- [X] T039 Create AppComponent at src/app/app.component.ts with router-outlet and navigation header
 - [ ] T040 Style navigation header in AppComponent with Tailwind (flex, responsive menu, active link highlighting)
 
 ---
