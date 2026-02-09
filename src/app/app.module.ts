@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -14,12 +14,11 @@ import { RecordPaymentComponent } from './features/payments/pages/record-payment
 import { InvoiceListComponent } from './features/invoices/pages/invoice-list/invoice-list.component';
 import { GenerateInvoiceComponent } from './features/invoices/pages/generate-invoice/generate-invoice.component';
 import { TransactionFilterComponent } from './features/accounts/components/transaction-filter/transaction-filter.component';
+import { ErrorInterceptor } from './core/interceptors/error.interceptor';
+import { LoadingInterceptor } from './core/interceptors/loading.interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AccountDashboardComponent
-  ],
+  declarations: [AppComponent, AccountDashboardComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -37,10 +36,21 @@ import { TransactionFilterComponent } from './features/accounts/components/trans
       positionClass: 'toast-top-right',
       preventDuplicates: true,
       closeButton: true,
-      progressBar: true
-    })
+      progressBar: true,
+    }),
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

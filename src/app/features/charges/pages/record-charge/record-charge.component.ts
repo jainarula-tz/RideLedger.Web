@@ -7,17 +7,20 @@ import { InputComponent } from '../../../../shared/components/input.component';
 import { ChargeApiService } from '../../services/charge-api.service';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { ChargeRequest } from '../../models/charge.model';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
+import { ComponentCanDeactivate } from '../../../../core/guards/unsaved-changes.guard';
 
 @Component({
   selector: 'app-record-charge',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ButtonComponent, InputComponent],
   templateUrl: './record-charge.component.html',
-  styleUrls: ['./record-charge.component.scss']
+  styleUrls: ['./record-charge.component.scss'],
 })
-export class RecordChargeComponent implements OnInit {
+export class RecordChargeComponent implements OnInit, ComponentCanDeactivate {
   chargeForm!: FormGroup;
   isSubmitting = false;
+  private formSubmitted = false;
 
   constructor(
     private fb: FormBuilder,
@@ -32,19 +35,35 @@ export class RecordChargeComponent implements OnInit {
 
   initializeForm(): void {
     const today = new Date().toISOString().split('T')[0];
-    
+
     this.chargeForm = this.fb.group({
       accountId: ['acc-001', [Validators.required]], // Mock account ID
       rideId: ['', [Validators.required, Validators.pattern(/^[A-Z0-9-]+$/)]],
-      fareAmount: [null, [Validators.required, Validators.min(0.01), Validators.max(999999.99)]],
-      serviceDate: [today, [Validators.required]],
-      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]]
+      fareAmount: [
+        null,
+        [
+          Validators.required,
+          CustomValidators.positiveNumber(),
+          CustomValidators.maxDecimals(2),
+          Validators.max(999999.99),
+        ],
+      ],
+      serviceDate: [today, [Validators.required, CustomValidators.notFutureDate()]],
+      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
     });
+  }
+
+  canDeactivate(): boolean {
+    // Allow navigation if form is pristine or already submitted
+    if (this.chargeForm.pristine || this.formSubmitted) {
+      return true;
+    }
+    return false; // This will trigger the confirmation dialog
   }
 
   getFieldError(fieldName: string): string {
     const control = this.chargeForm.get(fieldName);
-    
+
     if (!control || !control.errors || !control.touched) {
       return '';
     }
@@ -52,23 +71,31 @@ export class RecordChargeComponent implements OnInit {
     if (control.errors['required']) {
       return 'This field is required';
     }
-    
+
     if (control.errors['pattern']) {
       return 'Invalid format. Use only letters, numbers, and hyphens';
     }
-    
-    if (control.errors['min']) {
+
+    if (control.errors['positiveNumber']) {
       return 'Amount must be greater than 0';
     }
-    
+
+    if (control.errors['maxDecimals']) {
+      return `Maximum ${control.errors['maxDecimals'].maxDecimals} decimal places allowed`;
+    }
+
     if (control.errors['max']) {
       return 'Amount must be less than $999,999.99';
     }
-    
+
+    if (control.errors['notFutureDate']) {
+      return 'Date cannot be in the future';
+    }
+
     if (control.errors['minlength']) {
       return `Minimum ${control.errors['minlength'].requiredLength} characters required`;
     }
-    
+
     if (control.errors['maxlength']) {
       return `Maximum ${control.errors['maxlength'].requiredLength} characters allowed`;
     }
@@ -91,12 +118,13 @@ export class RecordChargeComponent implements OnInit {
       rideId: formValue.rideId,
       fareAmount: parseFloat(formValue.fareAmount),
       serviceDate: formValue.serviceDate,
-      description: formValue.description
+      description: formValue.description,
     };
 
     this.chargeApiService.recordCharge(request).subscribe({
       next: (response) => {
         this.isSubmitting = false;
+        this.formSubmitted = true; // Mark as submitted to allow navigation
         this.notificationService.success(
           `Charge recorded successfully! Transaction ID: ${response.transactionId}`,
           'Success'
@@ -108,12 +136,9 @@ export class RecordChargeComponent implements OnInit {
       },
       error: (error) => {
         this.isSubmitting = false;
-        this.notificationService.error(
-          'Failed to record charge. Please try again.',
-          'Error'
-        );
+        this.notificationService.error('Failed to record charge. Please try again.', 'Error');
         console.error('Error recording charge:', error);
-      }
+      },
     });
   }
 

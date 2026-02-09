@@ -6,17 +6,20 @@ import { ButtonComponent } from '../../../../shared/components/button.component'
 import { PaymentApiService } from '../../services/payment-api.service';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { PaymentRequest, PaymentMode } from '../../models/payment.model';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
+import { ComponentCanDeactivate } from '../../../../core/guards/unsaved-changes.guard';
 
 @Component({
   selector: 'app-record-payment',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, ButtonComponent],
   templateUrl: './record-payment.component.html',
-  styleUrls: ['./record-payment.component.scss']
+  styleUrls: ['./record-payment.component.scss'],
 })
-export class RecordPaymentComponent implements OnInit {
+export class RecordPaymentComponent implements OnInit, ComponentCanDeactivate {
   paymentForm!: FormGroup;
   isSubmitting = false;
+  private formSubmitted = false;
   paymentModes = Object.values(PaymentMode);
 
   constructor(
@@ -32,20 +35,36 @@ export class RecordPaymentComponent implements OnInit {
 
   initializeForm(): void {
     const today = new Date().toISOString().split('T')[0];
-    
+
     this.paymentForm = this.fb.group({
       accountId: ['acc-001', [Validators.required]], // Mock account ID
       paymentReferenceId: ['', [Validators.required, Validators.pattern(/^[A-Z0-9-]+$/)]],
-      amount: [null, [Validators.required, Validators.min(0.01), Validators.max(999999.99)]],
-      paymentDate: [today, [Validators.required]],
+      amount: [
+        null,
+        [
+          Validators.required,
+          CustomValidators.positiveNumber(),
+          CustomValidators.maxDecimals(2),
+          Validators.max(999999.99),
+        ],
+      ],
+      paymentDate: [today, [Validators.required, CustomValidators.notFutureDate()]],
       paymentMode: [PaymentMode.Card, [Validators.required]],
-      notes: ['', [Validators.maxLength(500)]]
+      notes: ['', [Validators.maxLength(500)]],
     });
+  }
+
+  canDeactivate(): boolean {
+    // Allow navigation if form is pristine or already submitted
+    if (this.paymentForm.pristine || this.formSubmitted) {
+      return true;
+    }
+    return false; // This will trigger the confirmation dialog
   }
 
   getFieldError(fieldName: string): string {
     const control = this.paymentForm.get(fieldName);
-    
+
     if (!control || !control.errors || !control.touched) {
       return '';
     }
@@ -53,19 +72,27 @@ export class RecordPaymentComponent implements OnInit {
     if (control.errors['required']) {
       return 'This field is required';
     }
-    
+
     if (control.errors['pattern']) {
       return 'Invalid format. Use only letters, numbers, and hyphens';
     }
-    
-    if (control.errors['min']) {
+
+    if (control.errors['positiveNumber']) {
       return 'Amount must be greater than 0';
     }
-    
+
+    if (control.errors['maxDecimals']) {
+      return `Maximum ${control.errors['maxDecimals'].maxDecimals} decimal places allowed`;
+    }
+
     if (control.errors['max']) {
       return 'Amount must be less than $999,999.99';
     }
-    
+
+    if (control.errors['notFutureDate']) {
+      return 'Date cannot be in the future';
+    }
+
     if (control.errors['maxlength']) {
       return `Maximum ${control.errors['maxlength'].requiredLength} characters allowed`;
     }
@@ -77,7 +104,7 @@ export class RecordPaymentComponent implements OnInit {
     const labels: Record<PaymentMode, string> = {
       [PaymentMode.Cash]: 'Cash',
       [PaymentMode.Card]: 'Credit/Debit Card',
-      [PaymentMode.BankTransfer]: 'Bank Transfer'
+      [PaymentMode.BankTransfer]: 'Bank Transfer',
     };
     return labels[mode];
   }
@@ -98,12 +125,13 @@ export class RecordPaymentComponent implements OnInit {
       amount: parseFloat(formValue.amount),
       paymentDate: formValue.paymentDate,
       paymentMode: formValue.paymentMode,
-      notes: formValue.notes || undefined
+      notes: formValue.notes || undefined,
     };
 
     this.paymentApiService.recordPayment(request).subscribe({
       next: (response) => {
         this.isSubmitting = false;
+        this.formSubmitted = true; // Mark as submitted to allow navigation
         this.notificationService.success(
           `Payment recorded successfully! Transaction ID: ${response.transactionId}`,
           'Success'
@@ -113,12 +141,9 @@ export class RecordPaymentComponent implements OnInit {
       },
       error: (error) => {
         this.isSubmitting = false;
-        this.notificationService.error(
-          'Failed to record payment. Please try again.',
-          'Error'
-        );
+        this.notificationService.error('Failed to record payment. Please try again.', 'Error');
         console.error('Error recording payment:', error);
-      }
+      },
     });
   }
 

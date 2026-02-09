@@ -5,17 +5,20 @@ import { Router } from '@angular/router';
 import { InvoiceApiService } from '../../services/invoice-api.service';
 import { NotificationService } from '../../../../core/services/notification.service';
 import { GenerateInvoiceRequest } from '../../models/invoice.model';
+import { CustomValidators } from '../../../../shared/validators/custom-validators';
+import { ComponentCanDeactivate } from '../../../../core/guards/unsaved-changes.guard';
 
 @Component({
   selector: 'app-generate-invoice',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './generate-invoice.component.html',
-  styleUrls: ['./generate-invoice.component.scss']
+  styleUrls: ['./generate-invoice.component.scss'],
 })
-export class GenerateInvoiceComponent implements OnInit {
+export class GenerateInvoiceComponent implements OnInit, ComponentCanDeactivate {
   generateForm!: FormGroup;
   isSubmitting = false;
+  private formSubmitted = false;
   today = new Date().toISOString().split('T')[0];
 
   constructor(
@@ -32,14 +35,22 @@ export class GenerateInvoiceComponent implements OnInit {
   initializeForm(): void {
     this.generateForm = this.fb.group({
       accountId: ['acc-001', [Validators.required]],
-      billingPeriodStart: ['', [Validators.required]],
-      billingPeriodEnd: ['', [Validators.required]]
+      billingPeriodStart: ['', [Validators.required, CustomValidators.notFutureDate()]],
+      billingPeriodEnd: ['', [Validators.required, CustomValidators.notFutureDate()]],
     });
+  }
+
+  canDeactivate(): boolean {
+    // Allow navigation if form is pristine or already submitted
+    if (this.generateForm.pristine || this.formSubmitted) {
+      return true;
+    }
+    return false; // This will trigger the confirmation dialog
   }
 
   onSubmit(): void {
     if (this.generateForm.invalid) {
-      Object.keys(this.generateForm.controls).forEach(key => {
+      Object.keys(this.generateForm.controls).forEach((key) => {
         this.generateForm.get(key)?.markAsTouched();
       });
       return;
@@ -58,11 +69,12 @@ export class GenerateInvoiceComponent implements OnInit {
     const request: GenerateInvoiceRequest = {
       accountId: this.generateForm.value.accountId,
       billingPeriodStart: this.generateForm.value.billingPeriodStart,
-      billingPeriodEnd: this.generateForm.value.billingPeriodEnd
+      billingPeriodEnd: this.generateForm.value.billingPeriodEnd,
     };
 
     this.invoiceApiService.generateInvoice(request).subscribe({
       next: (invoice) => {
+        this.formSubmitted = true; // Mark as submitted to allow navigation
         this.notificationService.success(`Invoice ${invoice.invoiceNumber} generated successfully`);
         this.isSubmitting = false;
         this.generateForm.reset();
@@ -72,7 +84,7 @@ export class GenerateInvoiceComponent implements OnInit {
         console.error('Error generating invoice:', error);
         this.notificationService.error('Failed to generate invoice. Please try again.');
         this.isSubmitting = false;
-      }
+      },
     });
   }
 
@@ -102,7 +114,7 @@ export class GenerateInvoiceComponent implements OnInit {
     const labels: { [key: string]: string } = {
       accountId: 'Account',
       billingPeriodStart: 'Start date',
-      billingPeriodEnd: 'End date'
+      billingPeriodEnd: 'End date',
     };
     return labels[fieldName] || fieldName;
   }
