@@ -10,8 +10,12 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
-  get<T>(endpoint: string, params?: HttpParams): Observable<T> {
-    return this.http.get<T>(`${this.apiUrl}/${endpoint}`, { params });
+  get<T>(endpoint: string, options?: { params?: HttpParams; responseType?: 'json' | 'blob' | 'text' }): Observable<T> {
+    const url = `${this.apiUrl}/${endpoint}`;
+    if (options?.responseType === 'blob') {
+      return this.http.get(url, { params: options.params, responseType: 'blob' }) as Observable<T>;
+    }
+    return this.http.get<T>(url, { params: options?.params });
   }
 
   post<T>(endpoint: string, body: unknown): Observable<T> {

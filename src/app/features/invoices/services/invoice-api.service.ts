@@ -26,6 +26,6 @@ export class InvoiceApiService {
 
   downloadInvoicePdf(invoiceNumber: string): Observable<Blob> {
     // Real API call to backend for PDF download
-    return this.apiService.get<Blob>(`invoices/${invoiceNumber}/pdf`, { responseType: 'blob' as 'json' });
+    return this.apiService.get<Blob>(`invoices/${invoiceNumber}/pdf`, { responseType: 'blob' });
   }
 }
