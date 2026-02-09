@@ -1,0 +1,138 @@
+<div class="min-h-screen bg-dark-900">
+  <!-- Header -->
+  <header class="bg-primary-600 px-6 py-4 shadow-lg">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-2xl font-bold text-white">Record Ride Charge</h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="max-w-3xl mx-auto px-6 py-8">
+    <div class="bg-dark-800 rounded-lg p-8 shadow-xl">
+      <h2 class="text-xl font-semibold text-white mb-6">Charge Information</h2>
+      
+      <form [formGroup]="chargeForm" (ngSubmit)="onSubmit()" class="space-y-6">
+        <!-- Ride ID -->
+        <div>
+          <label for="rideId" class="block text-sm font-medium text-gray-300 mb-2">
+            Ride ID <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="rideId"
+            type="text"
+            formControlName="rideId"
+            placeholder="e.g., RIDE-12345"
+            class="w-full px-4 py-2 rounded-lg bg-dark-700 text-white placeholder-gray-400 border focus:outline-none focus:ring-2 transition-colors"
+            [class.border-red-500]="chargeForm.get('rideId')?.invalid && chargeForm.get('rideId')?.touched"
+            [class.border-dark-600]="!chargeForm.get('rideId')?.invalid || !chargeForm.get('rideId')?.touched"
+            [class.focus:ring-red-500]="chargeForm.get('rideId')?.invalid && chargeForm.get('rideId')?.touched"
+            [class.focus:ring-primary-500]="!chargeForm.get('rideId')?.invalid || !chargeForm.get('rideId')?.touched"
+          />
+          <p *ngIf="getFieldError('rideId')" class="mt-1 text-sm text-red-400">
+            {{ getFieldError('rideId') }}
+          </p>
+        </div>
+
+        <!-- Fare Amount -->
+        <div>
+          <label for="fareAmount" class="block text-sm font-medium text-gray-300 mb-2">
+            Fare Amount ($) <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="fareAmount"
+            type="number"
+            step="0.01"
+            min="0"
+            formControlName="fareAmount"
+            placeholder="0.00"
+            class="w-full px-4 py-2 rounded-lg bg-dark-700 text-white placeholder-gray-400 border focus:outline-none focus:ring-2 transition-colors"
+            [class.border-red-500]="chargeForm.get('fareAmount')?.invalid && chargeForm.get('fareAmount')?.touched"
+            [class.border-dark-600]="!chargeForm.get('fareAmount')?.invalid || !chargeForm.get('fareAmount')?.touched"
+            [class.focus:ring-red-500]="chargeForm.get('fareAmount')?.invalid && chargeForm.get('fareAmount')?.touched"
+            [class.focus:ring-primary-500]="!chargeForm.get('fareAmount')?.invalid || !chargeForm.get('fareAmount')?.touched"
+          />
+          <p *ngIf="getFieldError('fareAmount')" class="mt-1 text-sm text-red-400">
+            {{ getFieldError('fareAmount') }}
+          </p>
+        </div>
+
+        <!-- Service Date -->
+        <div>
+          <label for="serviceDate" class="block text-sm font-medium text-gray-300 mb-2">
+            Service Date <span class="text-red-500">*</span>
+          </label>
+          <input
+            id="serviceDate"
+            type="date"
+            formControlName="serviceDate"
+            class="w-full px-4 py-2 rounded-lg bg-dark-700 text-white placeholder-gray-400 border focus:outline-none focus:ring-2 transition-colors"
+            [class.border-red-500]="chargeForm.get('serviceDate')?.invalid && chargeForm.get('serviceDate')?.touched"
+            [class.border-dark-600]="!chargeForm.get('serviceDate')?.invalid || !chargeForm.get('serviceDate')?.touched"
+            [class.focus:ring-red-500]="chargeForm.get('serviceDate')?.invalid && chargeForm.get('serviceDate')?.touched"
+            [class.focus:ring-primary-500]="!chargeForm.get('serviceDate')?.invalid || !chargeForm.get('serviceDate')?.touched"
+          />
+          <p *ngIf="getFieldError('serviceDate')" class="mt-1 text-sm text-red-400">
+            {{ getFieldError('serviceDate') }}
+          </p>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label for="description" class="block text-sm font-medium text-gray-300 mb-2">
+            Description <span class="text-red-500">*</span>
+          </label>
+          <textarea
+            id="description"
+            formControlName="description"
+            placeholder="e.g., Transport to City Hospital"
+            rows="3"
+            class="w-full px-4 py-2 rounded-lg bg-dark-700 text-white placeholder-gray-400 border focus:outline-none focus:ring-2 transition-colors resize-none"
+            [class.border-red-500]="chargeForm.get('description')?.invalid && chargeForm.get('description')?.touched"
+            [class.border-dark-600]="!chargeForm.get('description')?.invalid || !chargeForm.get('description')?.touched"
+            [class.focus:ring-red-500]="chargeForm.get('description')?.invalid && chargeForm.get('description')?.touched"
+            [class.focus:ring-primary-500]="!chargeForm.get('description')?.invalid || !chargeForm.get('description')?.touched"
+          ></textarea>
+          <p *ngIf="getFieldError('description')" class="mt-1 text-sm text-red-400">
+            {{ getFieldError('description') }}
+          </p>
+          <p class="mt-1 text-sm text-gray-400">
+            {{ chargeForm.get('description')?.value?.length || 0 }} / 200 characters
+          </p>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="flex gap-4 pt-4">
+          <button
+            type="submit"
+            [disabled]="isSubmitting"
+            class="flex-1 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed inline-flex items-center justify-center"
+          >
+            <span *ngIf="isSubmitting" class="inline-block animate-spin mr-2">
+              <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+            </span>
+            {{ isSubmitting ? 'Recording...' : 'Record Charge' }}
+          </button>
+          
+          <button
+            type="button"
+            (click)="onCancel()"
+            [disabled]="isSubmitting"
+            class="flex-1 px-6 py-3 bg-dark-700 hover:bg-dark-600 text-white font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-dark-500 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-primary-600 mt-16 px-6 py-4">
+    <div class="max-w-7xl mx-auto text-center text-white">
+      <p>Accounting & Invoicing System</p>
+    </div>
+  </footer>
+</div>
