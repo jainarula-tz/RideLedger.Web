@@ -97,6 +97,24 @@ npm run build
 - ✅ Invoices API (getInvoices, getInvoiceDetail, generateInvoice, downloadPdf)
 - ✅ Ready for backend integration
 
+**⚠️ Backend Endpoint Status:**
+
+| Frontend Need | Backend Status | Priority |
+|--------------|----------------|----------|
+| `POST /api/v1/accounts` | ✅ Implemented | - |
+| `GET /api/v1/accounts/{id}` | ✅ Implemented | - |
+| `GET /api/v1/accounts/{id}/balance` | ✅ Implemented | - |
+| `GET /api/v1/accounts/{id}/transactions` | ❌ **MISSING** | 🔴 HIGH |
+| `GET /api/v1/accounts/search` | ❌ **MISSING** | 🔴 HIGH |
+| `POST /api/v1/charges` | ✅ Implemented | - |
+| `POST /api/v1/payments` | ✅ Implemented | - |
+| `POST /api/v1/invoices/generate` | ✅ Implemented | - |
+| `GET /api/v1/invoices` | ❌ **MISSING** | 🔴 HIGH |
+| `GET /api/v1/invoices/{id}` | ❌ **MISSING** | 🔴 HIGH |
+| `GET /api/v1/invoices/{id}/pdf` | ❌ **MISSING** | 🟡 MEDIUM |
+
+**Integration Readiness:** 5/11 endpoints (45%)
+
 ### 🚧 **Phase 4+: Features - PARTIALLY COMPLETE** (~15/200 tasks) 
 
 **Implemented (Now using Real APIs):**
@@ -123,9 +141,55 @@ npm run build
 **Next Priority**: 
 1. ✅ ~~Implement missing Phase 2 infrastructure~~ **DONE**
 2. ✅ ~~Replace mock services with real API calls~~ **DONE**
-3. **Add unit tests for components and services**
-4. **Implement accessibility features (ARIA, keyboard navigation)**
-5. **Add E2E tests with Playwright**
+3. **🔴 CRITICAL: Backend needs 5 missing endpoints (see table above)**
+4. **Add unit tests for components and services**
+5. **Implement accessibility features (ARIA, keyboard navigation)**
+6. **Add E2E tests with Playwright**
+
+---
+
+## 🚨 **Critical Backend Gaps**
+
+The following backend endpoints are **required** for frontend to function:
+
+### **Priority 1 - Core Features Blocked:**
+
+1. **`GET /api/v1/accounts/{id}/transactions`**
+   - **Needed by:** Dashboard transaction list, filtering, pagination
+   - **Frontend component:** [account-dashboard.component.ts](src/app/features/accounts/pages/account-dashboard/account-dashboard.component.ts)
+   - **Current status:** Dashboard will show empty transaction list
+
+2. **`GET /api/v1/accounts/search`**
+   - **Needed by:** Account search with autocomplete
+   - **Frontend component:** [account-search.component.ts](src/app/features/accounts/pages/account-search/account-search.component.ts)
+   - **Current status:** Search functionality will fail
+
+3. **`GET /api/v1/invoices`**
+   - **Needed by:** Invoice listing page
+   - **Frontend component:** [invoice-list.component.ts](src/app/features/invoices/pages/invoice-list/invoice-list.component.ts)
+   - **Current status:** Invoice list will be empty
+
+4. **`GET /api/v1/invoices/{id}`**
+   - **Needed by:** Invoice detail view (after generation)
+   - **Frontend component:** Invoice generation success navigation
+   - **Current status:** Cannot view generated invoices
+
+### **Priority 2 - Enhanced Features:**
+
+5. **`GET /api/v1/invoices/{id}/pdf`**
+   - **Needed by:** PDF download functionality
+   - **Frontend component:** Invoice list/detail download button
+   - **Current status:** Download will fail
+
+### **Working Features (Backend Ready):**
+- ✅ Create account
+- ✅ View account details
+- ✅ View account balance
+- ✅ Record charges
+- ✅ Record payments
+- ✅ Generate invoices
+
+---
 
 ---
 
