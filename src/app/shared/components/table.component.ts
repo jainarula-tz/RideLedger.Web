@@ -123,17 +123,17 @@ export interface PaginationEvent {
 })
 export class TableComponent {
   @Input() columns: TableColumn[] = [];
-  @Input() data: any[] = [];
-  @Input() emptyMessage: string = 'No data available';
+  @Input() data: unknown[] = [];
+  @Input() emptyMessage = 'No data available';
   @Input() emptySubtext?: string;
 
   // Pagination inputs
-  @Input() currentPage: number = 1;
-  @Input() pageSize: number = 10;
-  @Input() totalRecords: number = 0;
+  @Input() currentPage = 1;
+  @Input() pageSize = 10;
+  @Input() totalRecords = 0;
 
   // Sort inputs
-  @Input() sortColumn: string = '';
+  @Input() sortColumn = '';
   @Input() sortDirection: 'asc' | 'desc' = 'asc';
 
   @Output() sortChange = new EventEmitter<SortEvent>();

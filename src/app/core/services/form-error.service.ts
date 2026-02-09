@@ -12,7 +12,7 @@ export class FormErrorService {
   /**
    * Gets the first error message for a form control
    */
-  getErrorMessage(control: AbstractControl | null, fieldName: string = 'This field'): string {
+  getErrorMessage(control: AbstractControl | null, fieldName = 'This field'): string {
     if (!control || !control.errors) {
       return '';
     }
