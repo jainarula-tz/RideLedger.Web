@@ -41,11 +41,12 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
     }),
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
+    // Temporarily disabled for testing - backend requires auth setup
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: AuthInterceptor,
+    //   multi: true,
+    // },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorInterceptor,
