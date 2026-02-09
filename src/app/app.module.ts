@@ -11,6 +11,8 @@ import { AccountDashboardComponent } from './features/accounts/pages/account-das
 import { AccountSearchComponent } from './features/accounts/pages/account-search/account-search.component';
 import { RecordChargeComponent } from './features/charges/pages/record-charge/record-charge.component';
 import { RecordPaymentComponent } from './features/payments/pages/record-payment/record-payment.component';
+import { InvoiceListComponent } from './features/invoices/pages/invoice-list/invoice-list.component';
+import { GenerateInvoiceComponent } from './features/invoices/pages/generate-invoice/generate-invoice.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { RecordPaymentComponent } from './features/payments/pages/record-payment
     AccountSearchComponent, // Standalone component
     RecordChargeComponent, // Standalone component
     RecordPaymentComponent, // Standalone component
+    InvoiceListComponent, // Standalone component
+    GenerateInvoiceComponent, // Standalone component
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
