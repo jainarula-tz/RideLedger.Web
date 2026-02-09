@@ -11,7 +11,7 @@ import { format, parseISO } from 'date-fns';
   standalone: true,
 })
 export class DateFormatPipe implements PipeTransform {
-  transform(value: string | Date | null | undefined, formatString: string = 'MMM d, yyyy'): string {
+  transform(value: string | Date | null | undefined, formatString = 'MMM d, yyyy'): string {
     if (!value) {
       return '';
     }

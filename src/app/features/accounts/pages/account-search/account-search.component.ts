@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { AccountApiService } from '../../services/account-api.service';
-import { Account } from '../../models/account.model';
+import { Account, AccountType, AccountStatus } from '../../models/account.model';
 
 @Component({
   selector: 'app-account-search',
@@ -34,8 +34,8 @@ export class AccountSearchComponent implements OnInit {
       {
         id: 'acc-001',
         name: 'City Hospital',
-        type: 'Organization' as any,
-        status: 'Active' as any,
+        type: AccountType.Organization,
+        status: AccountStatus.Active,
         balance: 500.00,
         createdAt: new Date('2026-01-15'),
         updatedAt: new Date('2026-02-08')
@@ -43,8 +43,8 @@ export class AccountSearchComponent implements OnInit {
       {
         id: 'acc-002',
         name: 'East Medical Center',
-        type: 'Organization' as any,
-        status: 'Active' as any,
+        type: AccountType.Organization,
+        status: AccountStatus.Active,
         balance: 1250.50,
         createdAt: new Date('2026-01-20'),
         updatedAt: new Date('2026-02-07')
@@ -52,8 +52,8 @@ export class AccountSearchComponent implements OnInit {
       {
         id: 'acc-003',
         name: 'John Smith',
-        type: 'Individual' as any,
-        status: 'Active' as any,
+        type: AccountType.Individual,
+        status: AccountStatus.Active,
         balance: 75.00,
         createdAt: new Date('2026-02-01'),
         updatedAt: new Date('2026-02-05')
@@ -61,8 +61,8 @@ export class AccountSearchComponent implements OnInit {
       {
         id: 'acc-004',
         name: 'West Health Clinic',
-        type: 'Organization' as any,
-        status: 'Inactive' as any,
+        type: AccountType.Organization,
+        status: AccountStatus.Inactive,
         balance: 0.00,
         createdAt: new Date('2025-12-10'),
         updatedAt: new Date('2026-01-15')
@@ -70,8 +70,8 @@ export class AccountSearchComponent implements OnInit {
       {
         id: 'acc-005',
         name: 'Sarah Johnson',
-        type: 'Individual' as any,
-        status: 'Active' as any,
+        type: AccountType.Individual,
+        status: AccountStatus.Active,
         balance: 225.75,
         createdAt: new Date('2026-01-25'),
         updatedAt: new Date('2026-02-09')

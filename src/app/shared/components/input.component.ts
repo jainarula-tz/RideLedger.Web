@@ -50,7 +50,9 @@ export class InputComponent implements ControlValueAccessor {
   @Input() hint = '';
 
   value = '';
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange: (value: string) => void = () => {};
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onTouched: () => void = () => {};
 
   get inputClasses(): string {

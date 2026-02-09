@@ -6,12 +6,27 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div *ngIf="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4" (click)="onBackdropClick($event)">
+    <div 
+      *ngIf="isOpen" 
+      class="fixed inset-0 z-50 flex items-center justify-center p-4" 
+      (click)="onBackdropClick($event)"
+      (keyup.escape)="close()"
+      tabindex="-1"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-labelledby]="'modal-title-' + title"
+    >
       <!-- Backdrop -->
       <div class="absolute inset-0 bg-black bg-opacity-75 transition-opacity"></div>
       
       <!-- Modal -->
-      <div class="relative bg-dark-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col" (click)="$event.stopPropagation()">
+      <div 
+        class="relative bg-dark-800 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col" 
+        (click)="$event.stopPropagation()"
+        (keydown)="$event.stopPropagation()"
+        role="document"
+        tabindex="0"
+      >
         <!-- Header -->
         <div class="px-6 py-4 border-b border-dark-700 flex items-center justify-between">
           <h3 class="text-xl font-semibold text-white">{{ title }}</h3>
@@ -52,7 +67,8 @@ export class ModalComponent {
     this.closeModal.emit();
   }
 
-  onBackdropClick(event: Event): void {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  onBackdropClick(_event: Event): void {
     if (this.closeOnBackdrop) {
       this.close();
     }

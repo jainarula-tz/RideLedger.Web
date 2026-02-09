@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { RouterLink } from '@angular/router';
 import { AccountApiService } from '../../services/account-api.service';
 import { Account } from '../../models/account.model';
-import { Transaction, TransactionType } from '../../models/transaction.model';
-import { TransactionFilterComponent, TransactionFilter } from '../../components/transaction-filter/transaction-filter.component';
+import { Transaction } from '../../models/transaction.model';
+import { TransactionFilter } from '../../components/transaction-filter/transaction-filter.component';
 
 @Component({
   selector: 'app-account-dashboard',

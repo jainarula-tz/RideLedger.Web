@@ -15,7 +15,7 @@ export class InvoiceListComponent implements OnInit {
   invoices: InvoiceListItem[] = [];
   filteredInvoices: InvoiceListItem[] = [];
   isLoading = true;
-  selectedStatus: string = 'all';
+  selectedStatus = 'all';
 
   InvoiceStatus = InvoiceStatus;
 
