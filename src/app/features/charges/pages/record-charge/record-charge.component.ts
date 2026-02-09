@@ -37,7 +37,7 @@ export class RecordChargeComponent implements OnInit, ComponentCanDeactivate {
     const today = new Date().toISOString().split('T')[0];
 
     this.chargeForm = this.fb.group({
-      accountId: ['acc-001', [Validators.required]], // Mock account ID
+      accountId: ['00000000-0000-0000-0000-000000000001', [Validators.required]], // Sample GUID format
       rideId: ['', [Validators.required, Validators.pattern(/^[A-Z0-9-]+$/)]],
       fareAmount: [
         null,
@@ -49,7 +49,7 @@ export class RecordChargeComponent implements OnInit, ComponentCanDeactivate {
         ],
       ],
       serviceDate: [today, [Validators.required, CustomValidators.notFutureDate()]],
-      description: ['', [Validators.required, Validators.minLength(5), Validators.maxLength(200)]],
+      fleetId: ['', [Validators.required, Validators.pattern(/^[A-Z0-9-]+$/)]],
     });
   }
 
@@ -116,9 +116,9 @@ export class RecordChargeComponent implements OnInit, ComponentCanDeactivate {
     const request: ChargeRequest = {
       accountId: formValue.accountId,
       rideId: formValue.rideId,
-      fareAmount: parseFloat(formValue.fareAmount),
+      amount: parseFloat(formValue.fareAmount),
       serviceDate: formValue.serviceDate,
-      description: formValue.description,
+      fleetId: formValue.fleetId,
     };
 
     this.chargeApiService.recordCharge(request).subscribe({
@@ -126,7 +126,7 @@ export class RecordChargeComponent implements OnInit, ComponentCanDeactivate {
         this.isSubmitting = false;
         this.formSubmitted = true; // Mark as submitted to allow navigation
         this.notificationService.success(
-          `Charge recorded successfully! Transaction ID: ${response.transactionId}`,
+          `Charge recorded successfully! Ledger Entry ID: ${response.ledgerEntryId}`,
           'Success'
         );
         this.chargeForm.reset();
