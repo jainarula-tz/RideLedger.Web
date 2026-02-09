@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { AccountApiService } from '../../services/account-api.service';
 import { Account } from '../../models/account.model';
@@ -14,10 +15,17 @@ export class AccountDashboardComponent implements OnInit {
   transactions: Transaction[] = [];
   isLoading = true;
 
-  constructor(private accountApiService: AccountApiService) {}
+  constructor(
+    private accountApiService: AccountApiService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loadDashboard();
+  }
+
+  navigateToSearch(): void {
+    this.router.navigate(['/accounts/search']);
   }
 
   loadDashboard(): void {

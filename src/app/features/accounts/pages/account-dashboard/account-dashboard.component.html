@@ -8,10 +8,12 @@
           <input
             type="text"
             placeholder="Search accounts..."
-            class="px-4 py-2 pl-10 rounded-lg bg-dark-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-400 w-80"
+            (click)="navigateToSearch()"
+            readonly
+            class="px-4 py-2 pl-10 rounded-lg bg-dark-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-400 w-80 cursor-pointer"
           />
           <svg
-            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+            class="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400 pointer-events-none"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -39,6 +41,57 @@
 
   <!-- Main Content -->
   <main class="max-w-7xl mx-auto px-6 py-8">
+    <!-- Quick Actions -->
+    <section class="mb-8">
+      <h2 class="text-lg font-semibold text-white mb-4">Quick Actions</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <button
+          routerLink="/charges/new"
+          class="flex items-center gap-3 px-6 py-4 bg-dark-800 hover:bg-dark-700 border border-primary-600 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+        >
+          <div class="flex-shrink-0 w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+            </svg>
+          </div>
+          <div class="text-left">
+            <p class="text-white font-medium">Record Charge</p>
+            <p class="text-sm text-gray-400">Add a new ride charge</p>
+          </div>
+        </button>
+
+        <button
+          routerLink="/payments/new"
+          class="flex items-center gap-3 px-6 py-4 bg-dark-800 hover:bg-dark-700 border border-primary-600 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+        >
+          <div class="flex-shrink-0 w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <div class="text-left">
+            <p class="text-white font-medium">Record Payment</p>
+            <p class="text-sm text-gray-400">Add a payment received</p>
+          </div>
+        </button>
+
+        <button
+          routerLink="/accounts/search"
+          class="flex items-center gap-3 px-6 py-4 bg-dark-800 hover:bg-dark-700 border border-primary-600 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500"
+        >
+          <div class="flex-shrink-0 w-10 h-10 bg-primary-600 rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <div class="text-left">
+            <p class="text-white font-medium">Search Accounts</p>
+            <p class="text-sm text-gray-400">Find and manage accounts</p>
+          </div>
+        </button>
+      </div>
+    </section>
+
     <div *ngIf="isLoading" class="text-white text-center py-12">
       <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
       <p class="mt-4">Loading dashboard...</p>

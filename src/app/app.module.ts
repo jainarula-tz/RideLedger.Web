@@ -8,7 +8,9 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AccountDashboardComponent } from './features/accounts/pages/account-dashboard/account-dashboard.component';
+import { AccountSearchComponent } from './features/accounts/pages/account-search/account-search.component';
 import { RecordChargeComponent } from './features/charges/pages/record-charge/record-charge.component';
+import { RecordPaymentComponent } from './features/payments/pages/record-payment/record-payment.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +23,9 @@ import { RecordChargeComponent } from './features/charges/pages/record-charge/re
     HttpClientModule,
     RouterModule,
     AppRoutingModule,
+    AccountSearchComponent, // Standalone component
     RecordChargeComponent, // Standalone component
+    RecordPaymentComponent, // Standalone component
     ToastrModule.forRoot({
       timeOut: 3000,
       positionClass: 'toast-top-right',
