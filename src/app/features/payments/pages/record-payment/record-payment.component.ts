@@ -20,7 +20,7 @@ export class RecordPaymentComponent implements OnInit, ComponentCanDeactivate {
   paymentForm!: FormGroup;
   isSubmitting = false;
   private formSubmitted = false;
-  paymentModes = Object.values(PaymentMode);
+  paymentModes = [PaymentMode.Cash, PaymentMode.Card, PaymentMode.BankTransfer];
 
   constructor(
     private fb: FormBuilder,
