@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { ApiService } from '../../../core/services/api.service';
 import { Account } from '../models/account.model';
 import { Transaction } from '../models/transaction.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AccountApiService {
   constructor(private apiService: ApiService) {}
@@ -16,8 +17,12 @@ export class AccountApiService {
   }
 
   getTransactions(accountId: string): Observable<Transaction[]> {
-    // Real API call to backend  
-    return this.apiService.get<Transaction[]>(`accounts/${accountId}/transactions`);
+    // Real API call to backend - returns paginated response
+    return this.apiService
+      .get<{
+        transactions: Transaction[];
+      }>(`accounts/${accountId}/transactions?pageNumber=1&pageSize=100`)
+      .pipe(map((response) => response.transactions));
   }
 
   searchAccounts(query: string): Observable<Account[]> {
@@ -27,6 +32,8 @@ export class AccountApiService {
 
   getAccountBalance(accountId: string): Observable<{ balance: number; currency: string }> {
     // Real API call to backend
-    return this.apiService.get<{ balance: number; currency: string }>( `accounts/${accountId}/balance`);
+    return this.apiService.get<{ balance: number; currency: string }>(
+      `accounts/${accountId}/balance`
+    );
   }
 }
