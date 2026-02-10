@@ -8,9 +8,9 @@ export interface PaymentFormData {
 }
 
 export enum PaymentMode {
-  Cash = 'Cash',
-  Card = 'Card',
-  BankTransfer = 'BankTransfer'
+  Cash = 1,
+  Card = 2,
+  BankTransfer = 3,
 }
 
 export interface PaymentRequest {
@@ -18,7 +18,7 @@ export interface PaymentRequest {
   paymentReferenceId: string;
   amount: number;
   paymentDate: string; // ISO date string
-  paymentMode: PaymentMode;
+  paymentMode: number; // Numeric enum value
   notes?: string;
 }
 

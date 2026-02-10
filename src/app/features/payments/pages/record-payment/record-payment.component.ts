@@ -37,7 +37,7 @@ export class RecordPaymentComponent implements OnInit, ComponentCanDeactivate {
     const today = new Date().toISOString().split('T')[0];
 
     this.paymentForm = this.fb.group({
-      accountId: ['acc-001', [Validators.required]], // Mock account ID
+      accountId: ['00000000-0000-0000-0000-000000000001', [Validators.required]], // Using test account from database
       paymentReferenceId: ['', [Validators.required, Validators.pattern(/^[A-Z0-9-]+$/)]],
       amount: [
         null,
@@ -119,12 +119,18 @@ export class RecordPaymentComponent implements OnInit, ComponentCanDeactivate {
     this.isSubmitting = true;
     const formValue = this.paymentForm.value;
 
+    // Convert paymentDate to ISO format if needed
+    const paymentDate =
+      formValue.paymentDate instanceof Date
+        ? formValue.paymentDate.toISOString()
+        : new Date(formValue.paymentDate).toISOString();
+
     const request: PaymentRequest = {
       accountId: formValue.accountId,
       paymentReferenceId: formValue.paymentReferenceId,
       amount: parseFloat(formValue.amount),
-      paymentDate: formValue.paymentDate,
-      paymentMode: formValue.paymentMode,
+      paymentDate: paymentDate,
+      paymentMode: parseInt(formValue.paymentMode, 10),
       notes: formValue.notes || undefined,
     };
 
