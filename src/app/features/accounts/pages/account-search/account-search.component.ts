@@ -11,7 +11,7 @@ import { Account, AccountType, AccountStatus } from '../../models/account.model'
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './account-search.component.html',
-  styleUrls: ['./account-search.component.scss']
+  styleUrls: ['./account-search.component.scss'],
 })
 export class AccountSearchComponent implements OnInit {
   searchControl = new FormControl('');
@@ -28,44 +28,44 @@ export class AccountSearchComponent implements OnInit {
 
   loadAccounts(): void {
     this.isLoading = true;
-    
+
     // Mock data - would be replaced with actual API call
     this.accounts = [
       {
-        id: 'acc-001',
-        name: 'City Hospital',
+        id: '00000000-0000-0000-0000-000000000001',
+        name: 'Test Account',
         type: AccountType.Organization,
         status: AccountStatus.Active,
-        balance: 500.00,
-        createdAt: new Date('2026-01-15'),
-        updatedAt: new Date('2026-02-08')
+        balance: 242.75,
+        createdAt: new Date('2026-02-09'),
+        updatedAt: new Date('2026-02-10'),
       },
       {
         id: 'acc-002',
         name: 'East Medical Center',
         type: AccountType.Organization,
         status: AccountStatus.Active,
-        balance: 1250.50,
+        balance: 1250.5,
         createdAt: new Date('2026-01-20'),
-        updatedAt: new Date('2026-02-07')
+        updatedAt: new Date('2026-02-07'),
       },
       {
         id: 'acc-003',
         name: 'John Smith',
         type: AccountType.Individual,
         status: AccountStatus.Active,
-        balance: 75.00,
+        balance: 75.0,
         createdAt: new Date('2026-02-01'),
-        updatedAt: new Date('2026-02-05')
+        updatedAt: new Date('2026-02-05'),
       },
       {
         id: 'acc-004',
         name: 'West Health Clinic',
         type: AccountType.Organization,
         status: AccountStatus.Inactive,
-        balance: 0.00,
+        balance: 0.0,
         createdAt: new Date('2025-12-10'),
-        updatedAt: new Date('2026-01-15')
+        updatedAt: new Date('2026-01-15'),
       },
       {
         id: 'acc-005',
@@ -74,21 +74,18 @@ export class AccountSearchComponent implements OnInit {
         status: AccountStatus.Active,
         balance: 225.75,
         createdAt: new Date('2026-01-25'),
-        updatedAt: new Date('2026-02-09')
-      }
+        updatedAt: new Date('2026-02-09'),
+      },
     ];
-    
+
     this.filteredAccounts = [...this.accounts];
     this.isLoading = false;
   }
 
   setupSearch(): void {
     this.searchControl.valueChanges
-      .pipe(
-        debounceTime(300),
-        distinctUntilChanged()
-      )
-      .subscribe(searchTerm => {
+      .pipe(debounceTime(300), distinctUntilChanged())
+      .subscribe((searchTerm) => {
         this.filterAccounts(searchTerm || '');
       });
   }
@@ -100,18 +97,23 @@ export class AccountSearchComponent implements OnInit {
     }
 
     const term = searchTerm.toLowerCase();
-    this.filteredAccounts = this.accounts.filter(account =>
-      account.name.toLowerCase().includes(term) ||
-      account.id.toLowerCase().includes(term) ||
-      account.type.toLowerCase().includes(term)
+    this.filteredAccounts = this.accounts.filter(
+      (account) =>
+        account.name.toLowerCase().includes(term) ||
+        account.id.toLowerCase().includes(term) ||
+        account.type.toLowerCase().includes(term)
     );
   }
 
   getStatusColor(status: string): string {
-    return status === 'Active' ? 'bg-primary-900 text-primary-300 border-primary-700' : 'bg-gray-800 text-gray-400 border-gray-700';
+    return status === 'Active'
+      ? 'bg-primary-900 text-primary-300 border-primary-700'
+      : 'bg-gray-800 text-gray-400 border-gray-700';
   }
 
   getTypeColor(type: string): string {
-    return type === 'Organization' ? 'bg-blue-900 text-blue-300 border-blue-700' : 'bg-purple-900 text-purple-300 border-purple-700';
+    return type === 'Organization'
+      ? 'bg-blue-900 text-blue-300 border-blue-700'
+      : 'bg-purple-900 text-purple-300 border-purple-700';
   }
 }

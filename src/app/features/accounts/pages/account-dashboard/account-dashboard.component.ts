@@ -9,7 +9,7 @@ import { TransactionFilter } from '../../components/transaction-filter/transacti
   selector: 'app-account-dashboard',
   templateUrl: './account-dashboard.component.html',
   styleUrls: ['./account-dashboard.component.scss'],
-  standalone: false
+  standalone: false,
 })
 export class AccountDashboardComponent implements OnInit {
   account: Account | null = null;
@@ -41,10 +41,10 @@ export class AccountDashboardComponent implements OnInit {
 
   loadDashboard(): void {
     this.isLoading = true;
-    
-    // Mock account ID for now
-    const accountId = 'acc-001';
-    
+
+    // Using the test account from database
+    const accountId = '00000000-0000-0000-0000-000000000001';
+
     this.accountApiService.getAccount(accountId).subscribe({
       next: (account) => {
         this.account = account;
@@ -53,7 +53,7 @@ export class AccountDashboardComponent implements OnInit {
       error: (error) => {
         console.error('Error loading account:', error);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -67,7 +67,7 @@ export class AccountDashboardComponent implements OnInit {
       error: (error) => {
         console.error('Error loading transactions:', error);
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -83,18 +83,18 @@ export class AccountDashboardComponent implements OnInit {
     // Apply date range filter
     if (this.currentFilter.startDate) {
       const startDate = new Date(this.currentFilter.startDate);
-      filtered = filtered.filter(t => new Date(t.transactionDate) >= startDate);
+      filtered = filtered.filter((t) => new Date(t.transactionDate) >= startDate);
     }
 
     if (this.currentFilter.endDate) {
       const endDate = new Date(this.currentFilter.endDate);
       endDate.setHours(23, 59, 59, 999); // Include entire end date
-      filtered = filtered.filter(t => new Date(t.transactionDate) <= endDate);
+      filtered = filtered.filter((t) => new Date(t.transactionDate) <= endDate);
     }
 
     // Apply transaction type filter
     if (this.currentFilter.transactionType) {
-      filtered = filtered.filter(t => t.type === this.currentFilter.transactionType);
+      filtered = filtered.filter((t) => t.type === this.currentFilter.transactionType);
     }
 
     this.filteredTransactions = filtered;
@@ -124,7 +124,11 @@ export class AccountDashboardComponent implements OnInit {
   }
 
   get hasFilters(): boolean {
-    return !!(this.currentFilter.startDate || this.currentFilter.endDate || this.currentFilter.transactionType);
+    return !!(
+      this.currentFilter.startDate ||
+      this.currentFilter.endDate ||
+      this.currentFilter.transactionType
+    );
   }
 
   get startRecord(): number {
