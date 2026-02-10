@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router';
 import { InvoiceApiService } from '../../services/invoice-api.service';
 import { NotificationService } from '../../../../core/services/notification.service';
-import { GenerateInvoiceRequest } from '../../models/invoice.model';
+import { GenerateInvoiceRequest, BillingFrequency } from '../../models/invoice.model';
 import { CustomValidators } from '../../../../shared/validators/custom-validators';
 import { ComponentCanDeactivate } from '../../../../core/guards/unsaved-changes.guard';
 
@@ -20,6 +20,13 @@ export class GenerateInvoiceComponent implements OnInit, ComponentCanDeactivate 
   isSubmitting = false;
   private formSubmitted = false;
   today = new Date().toISOString().split('T')[0];
+  billingFrequencies = [
+    BillingFrequency.PerRide,
+    BillingFrequency.Daily,
+    BillingFrequency.Weekly,
+    BillingFrequency.Monthly,
+  ];
+  BillingFrequency = BillingFrequency;
 
   constructor(
     private fb: FormBuilder,
@@ -34,9 +41,10 @@ export class GenerateInvoiceComponent implements OnInit, ComponentCanDeactivate 
 
   initializeForm(): void {
     this.generateForm = this.fb.group({
-      accountId: ['acc-001', [Validators.required]],
+      accountId: ['00000000-0000-0000-0000-000000000001', [Validators.required]], // Using test account from database
       billingPeriodStart: ['', [Validators.required, CustomValidators.notFutureDate()]],
       billingPeriodEnd: ['', [Validators.required, CustomValidators.notFutureDate()]],
+      billingFrequency: [BillingFrequency.Monthly, [Validators.required]],
     });
   }
 
@@ -66,10 +74,15 @@ export class GenerateInvoiceComponent implements OnInit, ComponentCanDeactivate 
 
     this.isSubmitting = true;
 
+    // Convert dates to ISO format
+    const startDate = new Date(this.generateForm.value.billingPeriodStart).toISOString();
+    const endDate = new Date(this.generateForm.value.billingPeriodEnd).toISOString();
+
     const request: GenerateInvoiceRequest = {
       accountId: this.generateForm.value.accountId,
-      billingPeriodStart: this.generateForm.value.billingPeriodStart,
-      billingPeriodEnd: this.generateForm.value.billingPeriodEnd,
+      billingPeriodStart: startDate,
+      billingPeriodEnd: endDate,
+      billingFrequency: parseInt(this.generateForm.value.billingFrequency, 10),
     };
 
     this.invoiceApiService.generateInvoice(request).subscribe({
@@ -115,7 +128,18 @@ export class GenerateInvoiceComponent implements OnInit, ComponentCanDeactivate 
       accountId: 'Account',
       billingPeriodStart: 'Start date',
       billingPeriodEnd: 'End date',
+      billingFrequency: 'Billing frequency',
     };
     return labels[fieldName] || fieldName;
+  }
+
+  getBillingFrequencyLabel(frequency: BillingFrequency): string {
+    const labels = {
+      [BillingFrequency.PerRide]: 'Per Ride',
+      [BillingFrequency.Daily]: 'Daily',
+      [BillingFrequency.Weekly]: 'Weekly',
+      [BillingFrequency.Monthly]: 'Monthly',
+    };
+    return labels[frequency];
   }
 }

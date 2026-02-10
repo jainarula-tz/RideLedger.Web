@@ -23,13 +23,21 @@ export enum InvoiceStatus {
   Draft = 'Draft',
   Sent = 'Sent',
   Paid = 'Paid',
-  Overdue = 'Overdue'
+  Overdue = 'Overdue',
+}
+
+export enum BillingFrequency {
+  PerRide = 1,
+  Daily = 2,
+  Weekly = 3,
+  Monthly = 4,
 }
 
 export interface GenerateInvoiceRequest {
   accountId: string;
   billingPeriodStart: string; // ISO date
   billingPeriodEnd: string; // ISO date
+  billingFrequency: number; // BillingFrequency enum value
 }
 
 export interface InvoiceListItem {
