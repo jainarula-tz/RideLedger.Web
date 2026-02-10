@@ -40,10 +40,24 @@ export class GenerateInvoiceComponent implements OnInit, ComponentCanDeactivate 
   }
 
   initializeForm(): void {
+    // Set default dates to current month (February 2026)
+    const now = new Date();
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    // Format dates as YYYY-MM-DD for date input
+    const formatDate = (date: Date) => date.toISOString().split('T')[0];
+
     this.generateForm = this.fb.group({
       accountId: ['00000000-0000-0000-0000-000000000001', [Validators.required]], // Using test account from database
-      billingPeriodStart: ['', [Validators.required, CustomValidators.notFutureDate()]],
-      billingPeriodEnd: ['', [Validators.required, CustomValidators.notFutureDate()]],
+      billingPeriodStart: [
+        formatDate(firstDay),
+        [Validators.required, CustomValidators.notFutureDate()],
+      ],
+      billingPeriodEnd: [
+        formatDate(lastDay),
+        [Validators.required, CustomValidators.notFutureDate()],
+      ],
       billingFrequency: [BillingFrequency.Monthly, [Validators.required]],
     });
   }

@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { ApiService } from '../../../core/services/api.service';
-import { Invoice, InvoiceListItem, GenerateInvoiceRequest } from '../models/invoice.model';
+import {
+  Invoice,
+  InvoiceListItem,
+  GenerateInvoiceRequest,
+  GenerateInvoiceResponse,
+} from '../models/invoice.model';
 
 @Injectable({
   providedIn: 'root',
@@ -29,9 +34,9 @@ export class InvoiceApiService {
     return this.apiService.get<Invoice>(`invoices/${invoiceNumber}`);
   }
 
-  generateInvoice(request: GenerateInvoiceRequest): Observable<Invoice> {
+  generateInvoice(request: GenerateInvoiceRequest): Observable<GenerateInvoiceResponse> {
     // Real API call to backend
-    return this.apiService.post<Invoice>('invoices/generate', request);
+    return this.apiService.post<GenerateInvoiceResponse>('invoices/generate', request);
   }
 
   downloadInvoicePdf(invoiceNumber: string): Observable<Blob> {

@@ -40,6 +40,11 @@ export interface GenerateInvoiceRequest {
   billingFrequency: number; // BillingFrequency enum value
 }
 
+export interface GenerateInvoiceResponse {
+  invoiceId: string;
+  invoiceNumber: string;
+}
+
 export interface InvoiceListItem {
   invoiceNumber: string;
   accountName: string;
