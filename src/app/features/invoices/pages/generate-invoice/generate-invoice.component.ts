@@ -64,10 +64,10 @@ export class GenerateInvoiceComponent implements OnInit, ComponentCanDeactivate 
       return;
     }
 
-    const startDate = new Date(this.generateForm.value.billingPeriodStart);
-    const endDate = new Date(this.generateForm.value.billingPeriodEnd);
+    const startDateObj = new Date(this.generateForm.value.billingPeriodStart);
+    const endDateObj = new Date(this.generateForm.value.billingPeriodEnd);
 
-    if (startDate > endDate) {
+    if (startDateObj > endDateObj) {
       this.notificationService.error('End date must be after start date');
       return;
     }
@@ -75,8 +75,8 @@ export class GenerateInvoiceComponent implements OnInit, ComponentCanDeactivate 
     this.isSubmitting = true;
 
     // Convert dates to ISO format
-    const startDate = new Date(this.generateForm.value.billingPeriodStart).toISOString();
-    const endDate = new Date(this.generateForm.value.billingPeriodEnd).toISOString();
+    const startDate = startDateObj.toISOString();
+    const endDate = endDateObj.toISOString();
 
     const request: GenerateInvoiceRequest = {
       accountId: this.generateForm.value.accountId,
